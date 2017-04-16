@@ -10,6 +10,7 @@ __status__ = "Prototype"
 from sys import argv
 import requests
 import socket
+import sys
 
 
 
@@ -43,8 +44,9 @@ def main(File):
             else:
                 prn_code_str = code_str
                 print prn_code_str, x, fqdn, aka[2]
-        except:
+        except Exception, Error:
             print Red + "Exception" + CEnd ,x
+            sys.stderr.write('ERROR: %sn' % str(Error))
 
 if __name__ == '__main__':
     main(argv[1])
