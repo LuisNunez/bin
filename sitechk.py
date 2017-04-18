@@ -4,6 +4,9 @@ from sys import argv
 import requests
 import socket
 import sys
+# Supress warning messages from certificate check 
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 __author__ = "Luis Nunez"
 __license__ = "GPLv3"
@@ -27,7 +30,7 @@ def main(File):
     for Url in UrlFile:
         x = Url.strip()
         try:
-            Status = requests.get(x)
+            Status = requests.get(x,verify=False)
             fqdn = socket.getfqdn(x.replace('https://', ''))
             aka = socket.gethostbyname_ex(x.replace('https://', ''))
             code = Status.status_code
