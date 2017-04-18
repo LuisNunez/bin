@@ -4,6 +4,7 @@ from sys import argv
 import requests
 import socket
 import sys
+import csv
 # Supress warning messages from certificate check 
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
@@ -26,9 +27,9 @@ BlinkEnd = '\33[6m'
 
 
 def main(File):
-    UrlFile = open(File)
+    UrlFile = csv.reader(open(File,'rb'))
     for Url in UrlFile:
-        x = Url.strip()
+        x = Url[1].strip()
         try:
             Status = requests.get(x,verify=False)
             fqdn = socket.getfqdn(x.replace('https://', ''))
