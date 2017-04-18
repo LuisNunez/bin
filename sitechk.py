@@ -27,9 +27,9 @@ BlinkEnd = '\33[6m'
 
 
 def main(File):
-    UrlFile = csv.reader(open(File,'rb'))
+    UrlFile = csv.DictReader(open(File,'rb'))
     for Url in UrlFile:
-        x = Url[1].strip()
+        x = Url['host'].strip()
         try:
             Status = requests.get(x,verify=False)
             fqdn = socket.getfqdn(x.replace('https://', ''))
