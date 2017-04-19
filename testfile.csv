@@ -1,0 +1,3 @@
+region,proto,host,path,status
+us, https://,www.google.com, ,200
+us, https://,www.google.com,/translate ,200

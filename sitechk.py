@@ -14,6 +14,7 @@ __license__ = "GPLv3"
 __version__ = "0.1.1"
 __maintainer__ = "Luis Nunez"
 __status__ = "Prototype"
+__date_ = '04/19/2017'
 
 
 print 'Version:', __version__
@@ -29,13 +30,17 @@ BlinkEnd = '\33[6m'
 def main(File):
     UrlFile = csv.DictReader(open(File,'rb'))
     for Url in UrlFile:
-        x = Url['host'].strip()
+        x = Url['proto'] + Url['host'].strip() + Url['path'].strip()
+        #print(Url['host'])
+        #print "URL: ", x
         try:
             Status = requests.get(x,verify=False)
-            fqdn = socket.getfqdn(x.replace('https://', ''))
-            aka = socket.gethostbyname_ex(x.replace('https://', ''))
             code = Status.status_code
             code_str = str(code)
+            #fqdn = socket.getfqdn(Url['host'].replace('https://', ''))
+            #aka = socket.gethostbyname_ex(x.replace('https://', ''))
+            fqdn = socket.getfqdn(Url['host'])
+            aka = socket.gethostbyname_ex(Url['host'])
             if code_str != '200':
                 prn_code_str = Blink + Red + code_str + BlinkEnd + CEnd
                 print prn_code_str, x, fqdn, aka[2]
