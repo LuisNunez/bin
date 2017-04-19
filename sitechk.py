@@ -14,6 +14,7 @@ __license__ = "GPLv3"
 __version__ = "0.1.1"
 __maintainer__ = "Luis Nunez"
 __status__ = "Prototype"
+__date_ = '04/19/2017'
 
 
 print 'Version:', __version__
@@ -32,10 +33,11 @@ def main(File):
         x = Url['host'].strip()
         try:
             Status = requests.get(x,verify=False)
-            fqdn = socket.getfqdn(x.replace('https://', ''))
-            aka = socket.gethostbyname_ex(x.replace('https://', ''))
             code = Status.status_code
             code_str = str(code)
+            fqdn = socket.getfqdn(x.replace('https://', ''))
+            aka = socket.gethostbyname_ex(x.replace('https://', ''))
+            
             if code_str != '200':
                 prn_code_str = Blink + Red + code_str + BlinkEnd + CEnd
                 print prn_code_str, x, fqdn, aka[2]
