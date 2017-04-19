@@ -30,14 +30,17 @@ BlinkEnd = '\33[6m'
 def main(File):
     UrlFile = csv.DictReader(open(File,'rb'))
     for Url in UrlFile:
-        x = Url['host'].strip()
+        x = Url['ssl'] + Url['host'].strip() + Url['path'].strip()
+        #print(Url['host'])
+        #print "URL: ", x
         try:
             Status = requests.get(x,verify=False)
             code = Status.status_code
             code_str = str(code)
-            fqdn = socket.getfqdn(x.replace('https://', ''))
-            aka = socket.gethostbyname_ex(x.replace('https://', ''))
-            
+            #fqdn = socket.getfqdn(Url['host'].replace('https://', ''))
+            #aka = socket.gethostbyname_ex(x.replace('https://', ''))
+            fqdn = socket.getfqdn(Url['host'])
+            aka = socket.gethostbyname_ex(Url['host'])
             if code_str != '200':
                 prn_code_str = Blink + Red + code_str + BlinkEnd + CEnd
                 print prn_code_str, x, fqdn, aka[2]
