@@ -30,7 +30,7 @@ BlinkEnd = '\33[6m'
 def main(File):
     UrlFile = csv.DictReader(open(File,'rb'))
     for Url in UrlFile:
-        x = Url['ssl'] + Url['host'].strip() + Url['path'].strip()
+        x = Url['proto'] + Url['host'].strip() + Url['path'].strip()
         #print(Url['host'])
         #print "URL: ", x
         try:
