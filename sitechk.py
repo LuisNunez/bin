@@ -27,7 +27,7 @@ Blink = '\33[5m'
 BlinkEnd = '\33[6m'
 
 
-def main(File):
+def main(File,Flag):
     UrlFile = csv.DictReader(open(File,'rb'))
     for Url in UrlFile:
         x = Url['proto'] + Url['host'].strip() + Url['path'].strip()
@@ -39,8 +39,8 @@ def main(File):
             code_str = str(code)
             #fqdn = socket.getfqdn(Url['host'].replace('https://', ''))
             #aka = socket.gethostbyname_ex(x.replace('https://', ''))
-            fqdn = socket.getfqdn(Url['host'])
-            aka = socket.gethostbyname_ex(Url['host'])
+            fqdn = socket.getfqdn(Url[Flag])
+            aka = socket.gethostbyname_ex(Url[Flag])
             if code_str != '200':
                 prn_code_str = Blink + Red + code_str + BlinkEnd + CEnd
                 print prn_code_str, x, fqdn, aka[2]
@@ -52,4 +52,4 @@ def main(File):
             sys.stderr.write('ERROR: %s\n' % str(Error))
 
 if __name__ == '__main__':
-    main(argv[1])
+    main(argv[1],'host')
