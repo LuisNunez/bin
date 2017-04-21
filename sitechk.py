@@ -28,6 +28,7 @@ BlinkEnd = '\33[6m'
 
 
 def main(File,Flag):
+    print "Test host"
     UrlFile = csv.DictReader(open(File,'rb'))
     for Url in UrlFile:
         x = Url['proto'] + Url[Flag].strip() + Url['path'].strip()
@@ -51,5 +52,32 @@ def main(File,Flag):
             print Red + "Exception" + CEnd, x
             sys.stderr.write('ERROR: %s\n' % str(Error))
 
+def staging (File,Flag):
+    print "Test Staging"
+    UrlFile = csv.DictReader(open(File,'rb'))
+    for Url in UrlFile:
+        x = Url['proto'] + Url[Flag].strip() + Url['path'].strip()
+        headers = {'Host':Url['host']}
+        print(Url['host'])
+        #print "URL: ", x
+        try:
+            Status = requests.get(x,headers= headers, verify=False)
+            code = Status.status_code
+            code_str = str(code)
+            #fqdn = socket.getfqdn(Url['host'].replace('https://', ''))
+            #aka = socket.gethostbyname_ex(x.replace('https://', ''))
+            fqdn = socket.getfqdn(Url[Flag])
+            aka = socket.gethostbyname_ex(Url[Flag])
+            if code_str != '200':
+                prn_code_str = Blink + Red + code_str + BlinkEnd + CEnd
+                print prn_code_str, x, fqdn, aka[2]
+            else:
+                prn_code_str = code_str
+                print prn_code_str, x, fqdn, aka[2]
+        except Exception, Error:
+            print Red + "Exception" + CEnd, x
+            sys.stderr.write('ERROR: %s\n' % str(Error))            
+
 if __name__ == '__main__':
     main(argv[1],'host')
+    staging(argv[1],'staging')
