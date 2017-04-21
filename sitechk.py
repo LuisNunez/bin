@@ -28,12 +28,10 @@ BlinkEnd = '\33[6m'
 
 
 def main(File,Flag):
-    print "Test host"
+    print "Test Production"
     UrlFile = csv.DictReader(open(File,'rb'))
     for Url in UrlFile:
         x = Url['proto'] + Url[Flag].strip() + Url['path'].strip()
-        #print(Url['host'])
-        #print "URL: ", x
         try:
             Status = requests.get(x,verify=False)
             code = Status.status_code
@@ -59,7 +57,6 @@ def staging (File,Flag):
         x = Url['proto'] + Url[Flag].strip() + Url['path'].strip()
         headers = {'Host':Url['host']}
         print(Url['host'])
-        #print "URL: ", x
         try:
             Status = requests.get(x,headers= headers, verify=False)
             code = Status.status_code
@@ -79,5 +76,7 @@ def staging (File,Flag):
             sys.stderr.write('ERROR: %s\n' % str(Error))            
 
 if __name__ == '__main__':
-    main(argv[1],'host')
+    #main(argv[1],'host')
     staging(argv[1],'staging')
+    staging(argv[1],'staging_ip')
+    staging(argv[1],'host')
