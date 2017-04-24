@@ -18,7 +18,7 @@ __date_ = '04/19/2017'
 
 
 print 'Version:', __version__
-
+print 'Site Checking Script'
 
 # Colors
 Red = '\033[91m'
@@ -50,15 +50,15 @@ def main(File,Flag):
             print Red + "Exception" + CEnd, x
             sys.stderr.write('ERROR: %s\n' % str(Error))
 
-def staging (File,Flag):
-    print "Test Staging"
+def SiteCheck(File,Flag):
+    print "Testing: ", Flag
     UrlFile = csv.DictReader(open(File,'rb'))
     for Url in UrlFile:
-        x = Url['proto'] + Url[Flag].strip() + Url['path'].strip()
+        target = Url['proto'] + Url[Flag].strip() + Url['path'].strip()
         headers = {'Host':Url['host']}
         print(Url['host'])
         try:
-            Status = requests.get(x,headers= headers, verify=False)
+            Status = requests.get(target,headers= headers, verify=False)
             code = Status.status_code
             code_str = str(code)
             #fqdn = socket.getfqdn(Url['host'].replace('https://', ''))
@@ -67,16 +67,16 @@ def staging (File,Flag):
             aka = socket.gethostbyname_ex(Url[Flag])
             if code_str != '200':
                 prn_code_str = Blink + Red + code_str + BlinkEnd + CEnd
-                print prn_code_str, x, fqdn, aka[2]
+                print prn_code_str, target, fqdn, aka[2]
             else:
                 prn_code_str = code_str
-                print prn_code_str, x, fqdn, aka[2]
+                print prn_code_str, target, fqdn, aka[2]
         except Exception, Error:
-            print Red + "Exception" + CEnd, x
+            print Red + "Exception" + CEnd, target
             sys.stderr.write('ERROR: %s\n' % str(Error))            
 
 if __name__ == '__main__':
     #main(argv[1],'host')
-    staging(argv[1],'staging')
-    staging(argv[1],'staging_ip')
-    staging(argv[1],'host')
+    #SiteCheck(argv[1],'staging')
+    SiteCheck(argv[1],'staging_ip')
+    SiteCheck(argv[1],'host')
