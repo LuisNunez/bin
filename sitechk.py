@@ -51,9 +51,11 @@ def main(File,Flag):
             sys.stderr.write('ERROR: %s\n' % str(Error))
 
 def SiteCheck(File,Flag):
+    print "-----------------------------------------------------------"
     print "Testing: ", Flag
     UrlFile = csv.DictReader(open(File,'rb'))
     for Url in UrlFile:
+        print "-----------------------------------------------------------"
         target = Url['proto'] + Url[Flag].strip() + Url['path'].strip()
         headers = {'Host':Url['host']}
         print(Url['host'])
