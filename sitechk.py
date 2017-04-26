@@ -5,6 +5,7 @@ import requests
 import socket
 import sys
 import csv
+import argparse
 # Supress warning messages from certificate check 
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
@@ -17,8 +18,6 @@ __status__ = "Prototype"
 __date_ = '04/19/2017'
 
 
-print 'Version:', __version__
-print 'Site Checking Script'
 
 # Colors
 Red = '\033[91m'
@@ -78,7 +77,15 @@ def SiteCheck(File,Flag):
             sys.stderr.write('ERROR: %s\n' % str(Error))            
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description = "Python HTTP check script")
+    parser.add_argument('filename')
+    parser.add_argument("-r", "--region", dest = 'region', action='store', default= 'All', help='Default is all')
+    args = parser.parse_args()
+
+    print 'Version:', __version__
+    print 'Site Checking Script'
+    print args.region
     #main(argv[1],'host')
-    #SiteCheck(argv[1],'staging')
-    SiteCheck(argv[1],'staging_ip')
-    SiteCheck(argv[1],'host')
+    SiteCheck(args.filename,'staging')
+    #SiteCheck(args.filename,'staging_ip')
+    #SiteCheck(args.filename,'host')
