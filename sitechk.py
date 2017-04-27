@@ -1,6 +1,9 @@
 # script to test website status
 # looking for status 200
-from sys import argv
+#from sys import argv
+import logging
+logging.basicConfig(filename='sitechk.log', level=logging.INFO, format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
+
 import requests
 import socket
 import sys
@@ -12,11 +15,10 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 __author__ = "Luis Nunez"
 __license__ = "GPLv3"
-__version__ = "0.1.1"
+__version__ = "0.2.1"
 __maintainer__ = "Luis Nunez"
 __status__ = "Prototype"
 __date_ = '04/19/2017'
-
 
 
 # Colors
@@ -74,7 +76,9 @@ def SiteCheck(File,Flag):
                 print prn_code_str, target, fqdn, aka[2]
         except Exception, Error:
             print Red + "Exception" + CEnd, target
-            sys.stderr.write('ERROR: %s\n' % str(Error))            
+            sys.stderr.write('ERROR: %s\n' % str(Error))
+            #logging.info('EXCEPTION:%s' % str(Error))
+            logging.info('EXCEPTION:%s %s %s', Flag, Url['host'], str(Error))
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description = "Python HTTP check script")
@@ -84,8 +88,8 @@ if __name__ == '__main__':
 
     print 'Version:', __version__
     print 'Site Checking Script'
-    print args.region
-    #main(argv[1],'host')
-    SiteCheck(args.filename,'staging')
+    logging.info('Script Site Checking Script version:%s', __version__ )
+    SiteCheck(args.filename,'origin')
     #SiteCheck(args.filename,'staging_ip')
     #SiteCheck(args.filename,'host')
+    #SiteCheck(args.filename,'staging')
