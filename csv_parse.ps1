@@ -1,4 +1,5 @@
 # Powershell Script to parse a CSV file.
+# CSV file contains headers Result, IP Address and others.
 
 %test_csv = import-CSV .\test.csv
 
