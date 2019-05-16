@@ -1,6 +1,10 @@
-# script to test website status
+# Sitechk.py is a script to test website status.  It uses the Requests module to form http requests.  
+# The script reads a CSV file with the following headers as input for the http requests.
+# Origin, host, staging.
+# This script was developed to test and validate sites hosted on the Akamai staging and production.
+ 
 # looking for status 200
-#from sys import argv
+# from sys import argv
 import logging
 logging.basicConfig(filename='sitechk.log', level=logging.INFO, format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
 
@@ -58,7 +62,8 @@ def SiteCheck(File,Flag):
     for Url in UrlFile:
         print "-----------------------------------------------------------"
         target = Url['proto'] + Url[Flag].strip() + Url['path'].strip()
-        headers = {'Host':Url['host']}
+        #headers = {'Host':Url['host']}
+        headers = {'Host':Url['host'], 'user-agent':'MetLife-tvm','Accept-Encoding':'gzip'}
         print(Url['host'])
         try:
             Status = requests.get(target,headers= headers, verify=False)
@@ -89,7 +94,9 @@ if __name__ == '__main__':
     print 'Version:', __version__
     print 'Site Checking Script'
     logging.info('Script Site Checking Script version:%s', __version__ )
+    main(args.filename,'host')
     SiteCheck(args.filename,'origin')
     #SiteCheck(args.filename,'staging_ip')
-    #SiteCheck(args.filename,'host')
-    #SiteCheck(args.filename,'staging')
+    SiteCheck(args.filename,'host')
+    SiteCheck(args.filename,'staging')
+    
